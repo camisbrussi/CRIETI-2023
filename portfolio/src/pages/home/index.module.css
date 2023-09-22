@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.socialMedia {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "titulo": "Meu Projeto React 1",
+    "linguagem": "JavaScript",
+    "imagem": "../../assets/imagem1.png",
+    "descricao": "Um projeto React incrível.",
+    "linkGithub": "https://github.com/seu-usuario/meu-projeto-1"
+  },
+  {
+    "id": 2,
+    "titulo": "Meu Projeto React 2",
+    "linguagem": "React",
+    "imagem": "../../assets/imagem2.png",
+    "descricao": "Outro projeto React emocionante.",
+    "linkGithub": "https://github.com/seu-usuario/meu-projeto-2"
+  },
+  {
+    "id": 3,
+    "titulo": "Projeto Legal em React",
+    "linguagem": "JavaScript",
+    "imagem": "../../assets/imagem3.png",
+    "descricao": "Um projeto React interessante para aprender.",
+    "linkGithub": "https://github.com/seu-usuario/projeto-legal"
+  }
+]
