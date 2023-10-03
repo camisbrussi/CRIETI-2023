@@ -1,0 +1,25 @@
+.workExperience {
+  border: 1px solid;
+  border-radius: 8px;
+  width: 320px;
+  height: 86px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workExperience h1 {
+  font-size: 16px;
+}
+
+.workExperience span {
+  font-size: 12px;
+}

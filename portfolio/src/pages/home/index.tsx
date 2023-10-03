@@ -4,6 +4,8 @@ import data from '../../data.json'
 
 import styles from "./index.module.css";
 import { ProjectImage } from '@/components/ProjectImage';
+import { WorkExperience } from '@/components/WorkExperience';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -18,16 +20,19 @@ export default function Home() {
           <ExternalLink link="https://github.com/camisbrussi" title="GitHub" />
           <ExternalLink link="#" title="Instagram" />
         </div>
+        <WorkExperience
+          rule="Sofware Enginner"
+          year="2023"
+          company="Mercado Livre"
+        />
       </div>
 
       <div>
         {data.map((project) => {
           return (
-            <ProjectImage
-              key={project.id}
-              img={project.imagem}
-              alt={project.titulo}
-            />
+            <Link key={project.id} href={`project/${project.id}`}>
+              <ProjectImage img={project.imagem} alt={project.titulo} />
+            </Link>
           );
         })}
       </div>
