@@ -1,0 +1,14 @@
+.button {
+  background-color: transparent;
+  color: white;
+
+  border: 1px solid;
+  padding: 10.5px 16px;
+  border-radius: 8px;
+  width: fit-content;
+
+  padding: 12px;
+
+  display: flex;
+  gap: 8px;
+}

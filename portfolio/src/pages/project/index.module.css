@@ -1,7 +1,7 @@
-.main {
+.project {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .footer {
