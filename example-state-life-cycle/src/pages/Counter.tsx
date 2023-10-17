@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export function Counter() {
   // Setting the initial state of the counter to 0
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(2);
 
   // Function to increment the counter
   const increment = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 export function Countdown() {
   const [counter, setCounter] = useState(10); // Valor inicial do contador
-  const [isPaused, setPaused] = useState(false); // Estado para pausar/reiniciar
+  const [isPaused, setPaused] = useState(true); // Estado para pausar/reiniciar
   const counterRef = useRef(counter);
 
   useEffect(() => {
