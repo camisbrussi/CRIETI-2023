@@ -2,24 +2,57 @@ import Image from "next/image";
 import { useState } from "react";
 import { LoginContainer } from "./styles";
 import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
+import { FormProvider, useForm } from "react-hook-form";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 
-interface LoginProps {
-  email?: string;
-  password?: string;
-}
+const newLoginValidationSchema = zod.object({
+  email: zod
+    .string()
+    .min(1, "Informe o seu e-mail")
+    .email("Informe um e-mail válido"),
+  password: zod
+    .string()
+    .min(6, "Mínimo 6 caracteres")
+    .max(50, "Máximo de 50 caracteres"),
+});
+
+type Login = zod.infer<typeof newLoginValidationSchema>;
 
 export default function Login() {
-  const [user, setUser] = useState<LoginProps>({});
+  const [user, setUser] = useState<Login>();
+  const [error, setError] = useState("");
 
-  function handleLogin(e: any) {
-    e.preventDefault();
-    setUser({
-      email: e.target.email.value,
-      password: e.target.password.value,
-    });
+  const router = useRouter();
+
+  const methods = useForm<Login>({
+    resolver: zodResolver(newLoginValidationSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const { handleSubmit, formState } = methods;
+
+  function handleLogin(data: Login) {
+    setUser(data);
+
+    try {
+      // Aqui fazer a requisição para api
+
+      router.push("/");
+    } catch (e) {
+      setError("Login e/ou senha incorretos");
+    }
 
     console.log(user);
+    console.log(data);
   }
+
+  const { errors } = formState;
 
   return (
     <LoginContainer>
@@ -29,14 +62,27 @@ export default function Login() {
         width={700}
         height={200}
       />
-      <form onSubmit={handleLogin}>
-        <h1>Fazer Login</h1>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handleLogin)}>
+          <h1>Fazer Login</h1>
 
-        <Input label="E-mail" id="email" type="email" />
-        <Input label="Senha" id="password" type="password" width={300} />
+          <Input
+            label="E-mail"
+            id="email"
+            type="email"
+            error={errors?.email?.message}
+          />
+          <Input
+            label="Senha"
+            id="password"
+            type="password"
+            error={errors?.password?.message}
+          />
 
-        <button>Login</button>
-      </form>
+          <Button label="Entrar" />
+          <span>{error}</span>
+        </form>
+      </FormProvider>
     </LoginContainer>
   );
 }
