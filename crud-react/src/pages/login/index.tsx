@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoginContainer } from "./styles";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const newLoginValidationSchema = zod.object({
   email: zod
@@ -22,8 +23,9 @@ const newLoginValidationSchema = zod.object({
 type Login = zod.infer<typeof newLoginValidationSchema>;
 
 export default function Login() {
-  const [user, setUser] = useState<Login>();
   const [error, setError] = useState("");
+
+  const { signIn } = useContext(AuthContext)
 
   const router = useRouter();
 
@@ -37,19 +39,15 @@ export default function Login() {
 
   const { handleSubmit, formState } = methods;
 
-  function handleLogin(data: Login) {
-    setUser(data);
+  async function handleLogin(data: Login) {
 
     try {
-      // Aqui fazer a requisição para api
+     await signIn(data)
 
       router.push("/");
     } catch (e) {
       setError("Login e/ou senha incorretos");
     }
-
-    console.log(user);
-    console.log(data);
   }
 
   const { errors } = formState;
