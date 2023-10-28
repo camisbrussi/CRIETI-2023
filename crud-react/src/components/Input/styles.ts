@@ -14,15 +14,15 @@ export const InputContainer = styled.div<InputProps>`
     margin: 0;
     padding: 0;
     border: none;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid ${(props) => props.theme["gray-100"]};
     outline: none;
 
     &:focus {
-      border-bottom: 2px solid #00f;
+      border-bottom: 2px solid ${(props) => props.theme.primary};
     }
   }
 
   span {
-    color: red;
+    color: ${(props) => props.theme.danger};
   }
 `;

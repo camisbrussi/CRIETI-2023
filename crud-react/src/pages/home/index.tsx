@@ -1,5 +1,7 @@
 import { AuthGuard } from "@/components/AuthGuard";
 import { Button } from "@/components/Button";
+import { Header } from "@/components/Header";
+import { Menu } from "@/components/Menu";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext } from "react";
 
@@ -8,9 +10,8 @@ export default function Home() {
   return (
     <>
     <AuthGuard>
-      <h1>Home</h1>
-      {user?.nome}
-      <Button label="Sair" onClick={logout} />
+      <Header label="Home"/>
+      <Menu />
     </AuthGuard>
     </>
   );

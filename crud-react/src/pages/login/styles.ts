@@ -21,7 +21,7 @@ export const LoginContainer = styled.main`
     justify-content: center;
 
     span {
-      color: red;
+      color: ${(props) => props.theme.danger};
     }
   }
 

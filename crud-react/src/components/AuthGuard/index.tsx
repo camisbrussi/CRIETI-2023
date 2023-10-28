@@ -14,19 +14,15 @@ export function AuthGuard({ children }: AuthGuardProps) {
   useEffect(() => {
     if (user) return;
     async function getUser() {
-      await getLogged();
+      getLogged();
     }
 
     getUser();
 
     if (!user) {
         router.push("/login");
-      }
+    }
   }, [getLogged, user]);
-
-  console.log(user);
-
-
 
 
   return <>{children}</>;
