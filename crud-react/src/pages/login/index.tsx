@@ -25,7 +25,7 @@ type Login = zod.infer<typeof newLoginValidationSchema>;
 export default function Login() {
   const [error, setError] = useState("");
 
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -40,9 +40,8 @@ export default function Login() {
   const { handleSubmit, formState } = methods;
 
   async function handleLogin(data: Login) {
-
     try {
-     await signIn(data)
+      await signIn(data);
 
       router.push("/");
     } catch (e) {

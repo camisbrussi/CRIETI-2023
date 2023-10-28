@@ -2,6 +2,7 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
+import Loading from "../Loading";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface AuthGuardProps {
 
 export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
-  const { user, getLogged } = useContext(AuthContext);
+  const { user, getLogged, loading } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) return;
@@ -18,12 +19,13 @@ export function AuthGuard({ children }: AuthGuardProps) {
     }
 
     getUser();
-
-    if (!user) {
-        router.push("/login");
-    }
   }, [getLogged, user]);
 
-
-  return <>{children}</>;
+  if (loading) {
+    return <Loading />;
+  } else if (!user) {
+    router.push("/login");
+  } else {
+    return <>{children}</>;
+  }
 }

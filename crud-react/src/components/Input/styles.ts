@@ -16,6 +16,7 @@ export const InputContainer = styled.div<InputProps>`
     border: none;
     border-bottom: 1px solid ${(props) => props.theme["gray-100"]};
     outline: none;
+    background: transparent;
 
     &:focus {
       border-bottom: 2px solid ${(props) => props.theme.primary};

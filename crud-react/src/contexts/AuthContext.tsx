@@ -1,5 +1,4 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -17,9 +16,10 @@ type SignInCredentials = {
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
   isAuthenticated: boolean;
-  getLogged: () => void;
   user?: User;
   logout: () => void;
+  getLogged: () => void;
+  loading: boolean;
 };
 
 type AuthProviderProps = {
@@ -29,9 +29,9 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const isAuthenticated = false;
   const [user, setUser] = useState<User>();
-
+  const [loading, setLoading] = useState(true);
+  const isAuthenticated = !!user;
   const router = useRouter();
 
   useEffect(() => {
@@ -42,10 +42,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // TODO: Requisição para API buscando o usuário logado
         setUser({
           id: 1,
-          nome: "Juca bala",
+          nome: "Juca Bala",
           email: "juca@batatinha.com",
         });
       }
+      setLoading(false);
     }
 
     getUser();
@@ -59,26 +60,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const setLogged = (token: string) => {
-    localStorage.setItem("logged", JSON.stringify(token));
+    localStorage.setItem("logged", JSON.stringify({ token }));
     return true;
   };
 
   const getLogged = async () => {
     if (typeof window !== "undefined") {
       const logged = localStorage?.getItem("logged");
-
       if (logged) {
         const userLogged = JSON.parse(logged);
-
         axios.defaults.headers.common[
           "Authorization"
         ] = `Basic ${userLogged.token}`;
-
         axios.defaults.headers.common["Cache-Control"] = "no-store";
-      }
-      return logged && JSON.parse(logged);
-    }
 
+        return logged && JSON.parse(logged);
+      }
+    }
     return;
   };
 
@@ -93,13 +91,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setLogged(token);
     } catch (error) {
+      setUser(undefined);
       throw error;
     }
   }
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, signIn, getLogged, user, logout }}
+      value={{ signIn, isAuthenticated, user, logout, getLogged, loading }}
     >
       {children}
     </AuthContext.Provider>

@@ -6,30 +6,24 @@ import { User } from "@/contexts/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 export default function Users() {
-  const [userList, setUserList] = useState<User[]>()
+  const [userList, setUserList] = useState<User[]>();
 
   useEffect(() => {
-    axios.get<User[]>("http://localhost:3333/usuarios").then(
-      (response) => setUserList(response.data)
-    )
-
-  }, [])
-
-  console.log(userList)
+    axios
+      .get<User[]>("http://localhost:3333/usuarios")
+      .then((response) => setUserList(response.data));
+  }, []);
 
   return (
     <>
-    <AuthGuard>
-      <Header label="Usuários" />
-      <Menu />
-      {userList?.map((user) => {
-        return (
-          <Card />
-        )
-      })}
-    </AuthGuard>
+      <AuthGuard>
+        <Header label="Usuários" />
+        <Menu />
+        {userList?.map((user) => {
+          return <Card />;
+        })}
+      </AuthGuard>
     </>
   );
 }
