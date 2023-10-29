@@ -12,6 +12,7 @@ export const LoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 
   background-color: ${(props) => props.theme.background};
 `;

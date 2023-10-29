@@ -1,5 +1,4 @@
-import { Spinner } from "phosphor-react";
-import { LoadingContainer } from "./styles";
+import { LoadingContainer, Spinner } from "./styles";
 
 const Loading: React.FC = () => {
   return (

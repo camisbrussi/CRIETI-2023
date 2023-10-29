@@ -36,17 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     async function getUser() {
-      const userLogged = await getLogged();
-
-      if (userLogged) {
-        // TODO: Requisição para API buscando o usuário logado
-        setUser({
-          id: 1,
-          nome: "Juca Bala",
-          email: "juca@batatinha.com",
-        });
-      }
-      setLoading(false);
+      await getLogged();
     }
 
     getUser();
@@ -65,6 +55,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const getLogged = async () => {
+    setLoading(true);
     if (typeof window !== "undefined") {
       const logged = localStorage?.getItem("logged");
       if (logged) {
@@ -74,9 +65,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
         ] = `Basic ${userLogged.token}`;
         axios.defaults.headers.common["Cache-Control"] = "no-store";
 
+        if (userLogged) {
+          /*TODO: Requisição para API buscando o usuário logado essa req é async,
+          se fosse real, esperaria aqui a resposta do servidor antes de continuar. 
+          Vou adicionar aqui uma função para simular isso.
+          */
+
+          setTimeout(function () {
+            // Seu código que será executado após a pausa de 3 segundos
+            setUser({
+              id: 1,
+              nome: "Juca Bala",
+              email: "juca@batatinha.com",
+            });
+          }, 3000);
+        }
+        setLoading(false);
         return logged && JSON.parse(logged);
       }
     }
+    setLoading(false);
     return;
   };
 
