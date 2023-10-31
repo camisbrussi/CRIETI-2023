@@ -78,9 +78,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
               nome: "Juca Bala",
               email: "juca@batatinha.com",
             });
+            setLoading(false);
           }, 3000);
         }
-        setLoading(false);
         return logged && JSON.parse(logged);
       }
     }
