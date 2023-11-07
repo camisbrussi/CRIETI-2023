@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import {
   ButtonsContainer,
   ContentContainer,
@@ -6,18 +6,20 @@ import {
   IconButton,
 } from "./Card.styles";
 import { Pencil, Trash } from "phosphor-react";
+import { User } from "@/contexts/AuthContext";
 
 interface CardProps {
   children: ReactNode;
+  openModal: () => void;
 }
 
-export function Card({ children }: CardProps) {
+export function Card({ children, openModal }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
         {children}
         <ButtonsContainer>
-          <IconButton title="Editar" variant="primary">
+          <IconButton title="Editar" variant="primary" onClick={openModal}>
             {<Pencil size={24} />}
           </IconButton>
           <IconButton title="Excluir" variant="danger">

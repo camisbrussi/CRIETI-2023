@@ -84,7 +84,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return logged && JSON.parse(logged);
       }
     }
-    setLoading(false);
     return;
   };
 
