@@ -52,18 +52,22 @@ export default function Users() {
   }
 
   const modalCreateUser = useMemo(() => {
-    <ModalContainer isOpen={isModalCreateUserOpen} style={customModalStyles}>
-      <h1>Criar usuário</h1>
-      <UserForm onClose={closeModalCreateUser} />
-    </ModalContainer>;
-  }, [isModalCreateUserOpen]);
+    return (
+      <ModalContainer isOpen={isModalCreateUserOpen} style={customModalStyles}>
+        <h1>Criar usuário</h1>
+        <UserForm onClose={closeModalCreateUser} />
+      </ModalContainer>
+    );
+  }, [customModalStyles, isModalCreateUserOpen]);
 
   const modalEditUser = useMemo(() => {
-    <ModalContainer isOpen={isModalEditUserOpen} style={customModalStyles}>
-      <h1>Editar usuário</h1>
-      <UserForm onClose={closeModalEditUser} userData={user} />
-    </ModalContainer>;
-  }, [isModalEditUserOpen]);
+    return (
+      <ModalContainer isOpen={isModalEditUserOpen} style={customModalStyles}>
+        <h1>Editar usuário</h1>
+        <UserForm onClose={closeModalEditUser} userData={user} />
+      </ModalContainer>
+    );
+  }, [customModalStyles, isModalEditUserOpen, user]);
 
   return (
     <>
