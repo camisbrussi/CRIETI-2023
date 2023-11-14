@@ -5,81 +5,122 @@ import { Card, CardInfo } from "@/components/Card";
 import { Menu } from "@/components/Menu";
 import { User } from "@/contexts/AuthContext";
 import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { UserContainer, ContentContainer, ModalContainer } from "./styles";
 import { UserForm } from "./components/UserForm";
+import Loading from "@/components/Loading";
+import { DeleteModal } from "./components/DeleteModal";
 
 export default function Users() {
   const [userList, setUserList] = useState<User[]>();
-  const [isModalCreateUserOpen, setIsModalCreateUserOpen] = useState(false);
-  const [isModalEditUserOpen, setIsModalEditUserOpen] = useState(false);
+  const [isModalCreateUserOpen, setIsModalCreateUserOpen] = useState(false)
+  const [isModalEditUserOpen, setIsModalEditUserOpen] = useState(false)
+  const [isModalDeleteUserOpen, setIsModalDeleteUserOpen] = useState(false)
   const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(false)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const customModalStyles = {
     content: {
       position: "absolute" as "absolute",
-      top: "50%",
-      left: "50%",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
+      top: '50%',
+      left: '50%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
     },
-  };
+  };  
+
+  const fetchUser = useCallback(async () => {
+    setLoading(true)
+    await axios
+    .get<User[]>("http://localhost:3333/usuarios")
+    .then((response) => setUserList(response.data));
+    setLoading(false)
+  }, [])
 
   useEffect(() => {
-    axios
-      .get<User[]>("http://localhost:3333/usuarios")
-      .then((response) => setUserList(response.data));
-  }, []);
+    fetchUser()
+  }, [fetchUser]);
+
 
   function openModalCreateUser() {
-    console.log("acessou");
-
-    setIsModalCreateUserOpen(true);
-    console.log("acessou", isModalCreateUserOpen);
+    setIsModalCreateUserOpen(true)
   }
 
-  function closeModalCreateUser() {
-    setIsModalCreateUserOpen(false);
-  }
+  const closeModalCreateUser = useCallback(async () => {
+    setIsModalCreateUserOpen(false)
+    await fetchUser()
+  },[fetchUser])
 
   function openModalEditUser(userEdit: User) {
-    setUser(userEdit);
-    setIsModalEditUserOpen(true);
+    setUser(userEdit)
+    setIsModalEditUserOpen(true)
   }
 
-  function closeModalEditUser() {
-    setIsModalEditUserOpen(false);
+  const closeModalEditUser = useCallback(async () =>  {
+    setIsModalEditUserOpen(false)
+    await fetchUser()
+  }, [fetchUser])
+
+  function openModalDeleteUser(userDelete: User) {
+    setUser(userDelete)
+    setIsModalDeleteUserOpen(true)
   }
 
-  const modalCreateUser = useMemo(() => {
-    return (
-      <ModalContainer isOpen={isModalCreateUserOpen} style={customModalStyles}>
+  const closeModalDeleteUser = useCallback(async () =>  {
+    setIsModalDeleteUserOpen(false)
+    await fetchUser()
+  }, [fetchUser])
+
+  const modalCreateUser = useMemo(()=> {
+    
+   return( 
+    <ModalContainer isOpen={isModalCreateUserOpen} style={customModalStyles}>
         <h1>Criar usuário</h1>
         <UserForm onClose={closeModalCreateUser} />
-      </ModalContainer>
-    );
-  }, [customModalStyles, isModalCreateUserOpen]);
+    </ModalContainer>
+   )
 
-  const modalEditUser = useMemo(() => {
-    return (
-      <ModalContainer isOpen={isModalEditUserOpen} style={customModalStyles}>
-        <h1>Editar usuário</h1>
-        <UserForm onClose={closeModalEditUser} userData={user} />
-      </ModalContainer>
-    );
-  }, [customModalStyles, isModalEditUserOpen, user]);
+  }, [closeModalCreateUser, customModalStyles, isModalCreateUserOpen])
 
-  return (
+  const modalEditUser = useMemo(()=> {
+   return( 
+    <ModalContainer isOpen={isModalEditUserOpen} style={customModalStyles}>
+      <h1>Editar usuário</h1>
+      <UserForm onClose={closeModalEditUser} userData={user} />
+    </ModalContainer>
+    )
+
+  }, [closeModalEditUser, customModalStyles, isModalEditUserOpen, user])
+
+  const modalDeleteUser = useMemo(()=> {
+    return( 
+     <ModalContainer isOpen={isModalDeleteUserOpen} style={customModalStyles}>
+       <h1>Deletar usuário</h1>
+
+        <DeleteModal onClose={closeModalDeleteUser} userData={user}/>
+     </ModalContainer>
+     )
+ 
+   }, [closeModalDeleteUser, customModalStyles, isModalDeleteUserOpen, user])
+ 
+
+  return ( 
     <>
       <AuthGuard>
         <Header label="Usuários" />
         <UserContainer>
           <Menu />
+          {loading ? <Loading /> : 
           <ContentContainer>
             <Button label="Criar usuário" onClick={openModalCreateUser} />
             {userList?.map((user) => {
               return (
-                <Card key={user.id} openModal={() => openModalEditUser(user)}>
+                <Card 
+                  key={user.id} 
+                  openModalEdit={() => openModalEditUser(user)}
+                  openModalDelete={() => openModalDeleteUser(user)}
+                >
                   <CardInfo title="ID" data={user.id} />
                   <CardInfo title="Nome" data={user.nome} />
                   <CardInfo title="E-mail" data={user.email} />
@@ -87,10 +128,15 @@ export default function Users() {
               );
             })}
           </ContentContainer>
+          }
+          
         </UserContainer>
+        
       </AuthGuard>
       {modalCreateUser}
       {modalEditUser}
+      {modalDeleteUser}
+      
     </>
   );
 }

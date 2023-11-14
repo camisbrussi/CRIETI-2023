@@ -6,22 +6,17 @@ interface ButtonProps {
   width?: number;
   height?: number;
   onClick?: () => void;
-  variant?: "primary" | "danger" | "secondary";
+  variant?: 'primary' | 'danger' | 'secondary'
 }
 export function Button({
   label,
   width = 200,
   height = 36,
   onClick,
-  variant = "primary",
+  variant= "primary"
 }: ButtonProps) {
   return (
-    <ButtonContainer
-      width={width}
-      height={height}
-      onClick={onClick}
-      variant={variant}
-    >
+    <ButtonContainer width={width} height={height} onClick={onClick} variant={variant}>
       {label}
     </ButtonContainer>
   );

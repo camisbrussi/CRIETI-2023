@@ -6,23 +6,23 @@ import {
   IconButton,
 } from "./Card.styles";
 import { Pencil, Trash } from "phosphor-react";
-import { User } from "@/contexts/AuthContext";
 
 interface CardProps {
   children: ReactNode;
-  openModal: () => void;
+  openModalEdit:  () => void
+  openModalDelete:  () => void
 }
 
-export function Card({ children, openModal }: CardProps) {
+export function Card({ children, openModalEdit, openModalDelete }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
         {children}
         <ButtonsContainer>
-          <IconButton title="Editar" variant="primary" onClick={openModal}>
+          <IconButton title="Editar" variant="primary" onClick={openModalEdit}>
             {<Pencil size={24} />}
           </IconButton>
-          <IconButton title="Excluir" variant="danger">
+          <IconButton title="Excluir" variant="danger" onClick={openModalDelete}>
             {<Trash size={24} />}
           </IconButton>
         </ButtonsContainer>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Modal from "react-modal";
+import Modal from 'react-modal';
 
 export const UserContainer = styled.body`
   width: 100vw;
@@ -31,6 +31,7 @@ export const ModalContainer = styled(Modal)`
   h1 {
     font-size: 1.5rem;
     margin: 0;
-    margin-bottom: 20px;
+    margin-bottom: 20px
   }
-`;
+
+`
