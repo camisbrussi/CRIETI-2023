@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -26,6 +27,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-modal": "^3.16.2",
+    "cypress": "^13.5.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
     "typescript": "^5"

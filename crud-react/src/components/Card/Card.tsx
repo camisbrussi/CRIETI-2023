@@ -19,10 +19,20 @@ export function Card({ children, openModalEdit, openModalDelete }: CardProps) {
       <ContentContainer>
         {children}
         <ButtonsContainer>
-          <IconButton title="Editar" variant="primary" onClick={openModalEdit}>
+          <IconButton 
+            title="Editar" 
+            variant="primary" 
+            onClick={openModalEdit}
+            aria-label="Editar"
+          >
             {<Pencil size={24} />}
           </IconButton>
-          <IconButton title="Excluir" variant="danger" onClick={openModalDelete}>
+          <IconButton 
+            title="Excluir" 
+            variant="danger" 
+            onClick={openModalDelete}
+            aria-label="Deletar"
+          >
             {<Trash size={24} />}
           </IconButton>
         </ButtonsContainer>
